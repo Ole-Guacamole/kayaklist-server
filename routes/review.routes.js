@@ -4,11 +4,88 @@ const Review = require("../models/Review.model");
 
 // Post /reviews Create a new review
 
-// Get /reviews/:reviewId - Retrieves a specific review by its id
+router.post("/reviews", (req, res, next) => {
+  Review.create({
+    rating: req.body.rating,
+    reviewContent: req.body.reviewContent,
+    user_id: req.body.user_id,
+    kayak_id: req.body.kayak_id,
+  })
+    .then((createdReview) => {
+      console.log("Review created", createdReview);
+      res.status(201).json(createdReview);
+    })
+    .catch((error) => {
+      console.error("Error while creating review ->", error);
+      error.message = "Failed to create review";
+      error.status = 500;
+      next(error);
+    });
+});
 
+// Get /reviews/:reviewId - Retrieves a specific review by its id
+router.get("/reviews/:reviewId", (req, res, next) => {
+  const reviewId = req.params.reviewId;
+
+  Review.findById(reviewId)
+    .then((review) => {
+      if (review) {
+        console.log("Review found ->", review);
+        res.status(200).json(review);
+      } else {
+        const error = new Error(`Review with id ${reviewId} not found`);
+        error.status = 404;
+        next(error);
+      }
+    })
+    .catch((error) => {
+      console.error("Error while retrieving review ->", error);
+      error.message = "Failed to retrieve review";
+      error.status = 500;
+      next(error);
+    });
+});
 // Put /reviews/:reviewId - Updates a specific review by its id
 
+router.put("/reviews/:reviewId", (req, res, next) => {
+  const reviewId = req.params.reviewId;
+
+  Review.findByIdAndUpdate(reviewId, req.body, { new: true })
+
+    .then((updatedReview) => {
+      console.log("Review updated", updatedReview);
+      res.status(204).json(updatedReview);
+    })
+    .catch((error) => {
+      console.error("Error while updating review ->", error);
+      error.message = "Failed to update review";
+      error.status = 500;
+      next(error);
+    });
+});
+
 // Delete /reviews/:reviewId - Deletes a specific review by its id
+router.delete("/reviews/:reviewId", (req, res, next) => {
+  const reviewId = req.params.reviewId;
+
+  Review.findByIdAndDelete(reviewId)
+    .then((result) => {
+      if (result) {
+        console.log("Review deleted!");
+        res.status(204).send();
+      } else {
+        const error = new Error(`Review with id ${reviewId} not found`);
+        error.status = 404;
+        next(error);
+      }
+    })
+    .catch((error) => {
+      console.error("Error while deleting review ->", error);
+      error.message = "Failed to delete review";
+      error.status = 500;
+      next(error);
+    });
+});
 
 // Get /reviews/kayaks/:kayakId - Retrieves all reviews for a specific kayak
 
