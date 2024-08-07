@@ -5,6 +5,8 @@ const Review = require("../models/Review.model");
 // Post /reviews Create a new review
 
 router.post("/reviews", (req, res, next) => {
+  // console.log("req.body", req.body);
+  // return;
   Review.create({
     rating: req.body.rating,
     reviewContent: req.body.reviewContent,
@@ -18,6 +20,21 @@ router.post("/reviews", (req, res, next) => {
     .catch((error) => {
       console.error("Error while creating review ->", error);
       error.message = "Failed to create review";
+      error.status = 500;
+      next(error);
+    });
+});
+
+// Get /reviews - Retrieves all reviews in the database collection
+router.get("/reviews", (req, res, next) => {
+  Review.find()
+    .then((reviews) => {
+      console.log("Reviews found ->", reviews);
+      res.status(200).json(reviews);
+    })
+    .catch((error) => {
+      console.error("Error while retrieving reviews ->", error);
+      error.message = "Failed to retrieve reviews";
       error.status = 500;
       next(error);
     });
