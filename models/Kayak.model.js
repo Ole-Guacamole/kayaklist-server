@@ -22,6 +22,7 @@ const kayakSchema = new Schema(
     steering: { type: String },
     description: { type: String, required: true },
     reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }],
+    imageUrl: {type: String}
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`

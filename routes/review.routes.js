@@ -106,6 +106,36 @@ router.delete("/reviews/:reviewId", (req, res, next) => {
 
 // Get /reviews/kayaks/:kayakId - Retrieves all reviews for a specific kayak
 
+router.get("/reviews/kayaks/:kayakId", (req, res, next) => {
+  const kayakId = req.params.kayakId;
+
+  Review.find({ kayak_id: kayakId })
+    .then((reviews) => {
+      console.log("Reviews found ->", reviews);
+      res.status(200).json(reviews);
+    })
+    .catch((error) => {
+      console.error("Error while retrieving reviews ->", error);
+      error.message = "Failed to retrieve reviews";
+      error.status = 500;
+      next(error);
+    });
+});
 // Get /reviews/users/:userId - Retrieves all reviews for a specific user
+router.get("/reviews/users/:userId", (req, res, next) => {
+  const userId = req.params.userId;
+
+  Review.find({ user_id: userId })
+    .then((reviews) => {
+      console.log("Reviews found ->", reviews);
+      res.status(200).json(reviews);
+    })
+    .catch((error) => {
+      console.error("Error while retrieving reviews ->", error);
+      error.message = "Failed to retrieve reviews";
+      error.status = 500;
+      next(error);
+    });
+});
 
 module.exports = router;
