@@ -23,6 +23,7 @@ router.post("/kayaks", (req, res, next) => {
     steering: req.body.steering,
     hasBulkheads: req.body.hasBulkheads,
     description: req.body.description,
+    imageUrl: req.body.imageUrl,
     reviews: req.body.reviews,
   })
     .then((createdKayak) => {
