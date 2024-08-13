@@ -56,6 +56,29 @@ router.get("/kayaks", (req, res, next) => {
     });
 });
 
+// Get /kayaks/users/:id - Retrieves all kayaks for one user
+router.get("/kayaks/users/:userId", (req, res, next) => {
+  const userId = req.params.userId;
+
+  Kayak.find({ user_id: userId })
+    .then((kayaks) => {
+      if (kayaks.length > 0) {
+        console.log("Retrieved Kayaks for User ->", kayaks);
+        res.status(200).json(kayaks);
+      } else {
+        const error = new Error(`No kayaks found for user with id ${userId}`);
+        error.status = 404;
+        next(error);
+      }
+    })
+    .catch((error) => {
+      console.error("Error while retrieving kayaks ->", error);
+      error.message = "Failed to retrieve kayaks";
+      error.status = 500;
+      next(error);
+    });
+});
+
 // Get /kayaks/:id - Retrieves a specific kayak by its id
 
 router.get("/kayaks/:kayakId", (req, res, next) => {

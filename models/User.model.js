@@ -19,18 +19,9 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Name is required."],
     },
-    kayaks: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Kayak",
-      },
-    ],
-    reviews: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Review",
-      },
-    ],
+    phone: { type: String },
+    kayaks: [{ type: mongoose.Schema.Types.ObjectId, ref: "Kayak" }],
+    reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }],
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`

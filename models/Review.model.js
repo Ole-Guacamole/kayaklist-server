@@ -11,6 +11,7 @@ const reviewSchema = new Schema({
   user_id: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 
   kayak_id: { type: mongoose.Schema.Types.ObjectId, ref: "Kayak" },
+
 },
 {
   // this second object adds extra properties: `createdAt` and `updatedAt`
