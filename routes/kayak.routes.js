@@ -20,6 +20,7 @@ router.post("/kayaks", (req, res, next) => {
     paddlerSize: req.body.paddlerSize,
     stability: req.body.stability,
     speed: req.body.speed,
+    capacity: req.body.capacity,
     steering: req.body.steering,
     hasBulkheads: req.body.hasBulkheads,
     description: req.body.description,
