@@ -62,7 +62,8 @@ router.get("/kayaks/:kayakId", (req, res, next) => {
   const kayakId = req.params.kayakId;
 
   Kayak.findById(kayakId)
-    .then((kayak) => {
+  .populate("user_id") // Populate the user_id field
+  .then((kayak) => {
       if (kayak) {
         console.log("Retrieved Kayak ->", kayak);
         res.status(200).json(kayak);
