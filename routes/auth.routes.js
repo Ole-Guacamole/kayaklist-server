@@ -13,12 +13,14 @@ const User = require("../models/User.model");
 // Require necessary (isAuthenticated) middleware in order to control access to specific routes
 const { isAuthenticated } = require("../middleware/jwt.middleware.js");
 
+const checkAdmin = require("../middleware/checkAdmin.js"); 
+
 // How many rounds should bcrypt run the salt (default - 10 rounds)
 const saltRounds = 10;
 
 // POST /auth/signup  - Creates a new user in the database
-router.post("/signup", (req, res, next) => {
-  const { email, password, name, phone } = req.body;
+router.post("/signup", isAuthenticated, checkAdmin, (req, res, next) => {
+  const { email, password, name, phone, role } = req.body;
 
   // Check if email or password or name are provided as empty strings
   if (email === "" || password === "" || name === "") {
@@ -58,15 +60,15 @@ router.post("/signup", (req, res, next) => {
 
       // Create the new user in the database
       // We return a pending promise, which allows us to chain another `then`
-      return User.create({ email, password: hashedPassword, name, phone });
+      return User.create({ email, password: hashedPassword, name, phone, role }); // Default role is set to 'user' if role is not provided
     })
     .then((createdUser) => {
       // Deconstruct the newly created user object to omit the password
       // We should never expose passwords publicly
-      const { email, name, _id, phone } = createdUser;
+      const { email, name, _id, phone, role } = createdUser;
 
       // Create a new object that doesn't expose the password
-      const user = { email, name, _id, phone };
+      const user = { email, name, _id, phone, role };
 
       // Send a json response containing the user object
       res.status(201).json({ user: user });
@@ -98,10 +100,10 @@ router.post("/login", (req, res, next) => {
 
       if (passwordCorrect) {
         // Deconstruct the user object to omit the password
-        const { _id, email, name, phone } = foundUser;
+        const { _id, email, name, phone, role } = foundUser;
 
         // Create an object that will be set as the token payload
-        const payload = { _id, email, name, phone };
+        const payload = { _id, email, name, phone, role };
 
         // Create a JSON Web Token and sign it
         const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {

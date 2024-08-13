@@ -20,6 +20,13 @@ const userSchema = new Schema(
       required: [true, "Name is required."],
     },
     phone: { type: String },
+
+    role: {
+      type: String,
+      enum: ['user', 'admin'],
+      default: 'user',
+    },
+
     kayaks: [{ type: mongoose.Schema.Types.ObjectId, ref: "Kayak" }],
     reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }],
   },
