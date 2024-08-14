@@ -28,9 +28,13 @@ const reviewRoutes = require("./routes/review.routes");
 app.use("/", reviewRoutes);
 
 const userRoutes = require("./routes/user.routes");
-app.use("/" , userRoutes);
+app.use("/", userRoutes);
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
 
-module.exports = app;
+const PORT = process.env.PORT; // || 5005;
+
+app.listen(PORT, () => {
+  console.log(`Server listening on http://localhost:${PORT}`);
+});
