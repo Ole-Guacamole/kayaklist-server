@@ -1,4 +1,4 @@
-import "dotenv/config";
+
 const app = require("./app");
 
 

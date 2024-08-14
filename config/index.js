@@ -1,4 +1,4 @@
-import "dotenv/config";
+
 
 // We reuse this import in order to have access to the `body` property in requests
 import { json, urlencoded } from "express";
