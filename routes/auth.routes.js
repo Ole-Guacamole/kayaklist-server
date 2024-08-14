@@ -13,10 +13,12 @@ const User = require("../models/User.model");
 // Require necessary (isAuthenticated) middleware in order to control access to specific routes
 const { isAuthenticated } = require("../middleware/jwt.middleware.js");
 
-const checkAdmin = require("../middleware/checkAdmin.js"); 
+const checkAdmin = require("../middleware/checkAdmin.js");
 
 // How many rounds should bcrypt run the salt (default - 10 rounds)
 const saltRounds = 10;
+
+require("dotenv").config();
 
 // POST /auth/signup  - Creates a new user in the database
 router.post("/signup", isAuthenticated, checkAdmin, (req, res, next) => {
@@ -60,7 +62,13 @@ router.post("/signup", isAuthenticated, checkAdmin, (req, res, next) => {
 
       // Create the new user in the database
       // We return a pending promise, which allows us to chain another `then`
-      return User.create({ email, password: hashedPassword, name, phone, role }); // Default role is set to 'user' if role is not provided
+      return User.create({
+        email,
+        password: hashedPassword,
+        name,
+        phone,
+        role,
+      }); // Default role is set to 'user' if role is not provided
     })
     .then((createdUser) => {
       // Deconstruct the newly created user object to omit the password
