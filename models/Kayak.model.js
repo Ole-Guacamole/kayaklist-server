@@ -14,7 +14,7 @@ const kayakSchema = new Schema(
     type: {
       type: String,
       required: true,
-      enum: ["Touring Kayak", "Sea Kayak", "Racing Kayak", "Wildwater Kayak"],
+      enum: ["Touring Kayak", "Sea Kayak", "Racing Kayak", "Wildwater Kayak", "Surf Ski", "SUP", "Canoe"],
     },
     material: {
       type: String,
