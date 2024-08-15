@@ -28,6 +28,7 @@ router.post("/reviews", (req, res, next) => {
 // Get /reviews - Retrieves all reviews in the database collection
 router.get("/reviews", (req, res, next) => {
   Review.find()
+    .populate("user_id", "name email") // Populate the user field
     .then((reviews) => {
       console.log("Reviews found ->", reviews);
       res.status(200).json(reviews);
@@ -110,6 +111,7 @@ router.get("/reviews/kayaks/:kayakId", (req, res, next) => {
   const kayakId = req.params.kayakId;
 
   Review.find({ kayak_id: kayakId })
+    .populate("user_id", "name email") // Populate the user field
     .then((reviews) => {
       console.log("Reviews found ->", reviews);
       res.status(200).json(reviews);

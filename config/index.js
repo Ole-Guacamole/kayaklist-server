@@ -13,7 +13,7 @@ const cookieParser = require("cookie-parser");
 // unless the request is made from the same domain, by default express wont accept POST requests
 const cors = require("cors");
 
-const FRONTEND_URL = process.env.ORIGIN || "https://kayaklist.netlify.app"
+const FRONTEND_URL = process.env.ORIGIN
 
 // console.log("FRONTEND_URL:", FRONTEND_URL); // Add this line to log the value of FRONTEND_URL
 
@@ -27,7 +27,7 @@ module.exports = (app) => {
   app.use(
     cors({
       origin: [FRONTEND_URL],
-      credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+      credentials: true // Allow credentials (cookies, authorization headers, etc.)
     })
   );
 
