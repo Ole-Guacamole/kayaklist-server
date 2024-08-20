@@ -6,7 +6,6 @@ const Kayak = require('../models/Kayak.model');
 // Create a new rental
 router.post('/rentals', (req, res) => {
   const { kayak_id, user_id, startDate, endDate } = req.body;
-  
 
   // Check if the kayak is already rented for the given date range
   Rental.findOne({
@@ -21,12 +20,12 @@ router.post('/rentals', (req, res) => {
     }
 
     // Create a new rental
-    const rental = new Rental({ kayak_id: kayakId, user_id: user_id, startDate, endDate });
+    const rental = new Rental({ kayak_id: kayak_id, user_id: user_id, startDate, endDate });
     return rental.save();
   })
   .then(rental => {
     // Update the kayak's rentals
-    return Kayak.findByIdAndUpdate(kayakId, { $push: { rentals: rental._id } })
+    return Kayak.findByIdAndUpdate(kayak_id, { $push: { rentals: rental._id } })
       .then(() => res.status(201).json(rental));
   })
   .catch(error => {
